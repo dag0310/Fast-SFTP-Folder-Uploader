@@ -4,12 +4,8 @@ import paramiko
 import os
 import configparser
 
-config = configparser.ConfigParser()
-config_file = 'config.ini'
+config_filepath = 'config.ini'
 zip_file_extension = '.zip'
-
-if os.path.exists(config_file):
-    config.read(config_file)
 
 
 def update_status(text):
@@ -120,13 +116,16 @@ def upload():
 
 
 def save_config():
-    config['SFTP']['remote_folder'] = remote_folder_entry.get()
-    config['SFTP']['hostname'] = hostname_entry.get()
-    config['SFTP']['username'] = username_entry.get()
-    config['SFTP']['password'] = password_entry.get()
+    new_config = configparser.ConfigParser()
+    new_config['SFTP'] = {
+        'remote_folder': remote_folder_entry.get(),
+        'hostname': hostname_entry.get(),
+        'username': username_entry.get(),
+        'password': password_entry.get(),
+    }
 
-    with open(config_file, 'w') as configfile:
-        config.write(configfile)
+    with open(config_filepath, 'w') as file:
+        new_config.write(file)
 
     update_status('Config saved.')
 
@@ -175,10 +174,14 @@ password_entry = tk.Entry(root, show="*")
 password_entry.pack(fill="x", padx=padding)
 
 # Load saved configuration
-remote_folder_entry.insert(0, config['SFTP']['remote_folder'])
-hostname_entry.insert(0, config['SFTP']['hostname'])
-username_entry.insert(0, config['SFTP']['username'])
-password_entry.insert(0, config['SFTP']['password'])
+config = configparser.ConfigParser()
+if os.path.exists(config_filepath):
+    config.read(config_filepath)
+if 'SFTP' in config:
+    remote_folder_entry.insert(0, config['SFTP']['remote_folder'])
+    hostname_entry.insert(0, config['SFTP']['hostname'])
+    username_entry.insert(0, config['SFTP']['username'])
+    password_entry.insert(0, config['SFTP']['password'])
 
 # Save config button
 save_button = tk.Button(root, text="Save Config", command=save_config)
