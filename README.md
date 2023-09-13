@@ -9,8 +9,13 @@ Upload folders faster via SFTP by temporarily zipping on the client and unzippin
 - You can also just upload an existing ZIP file, which will not be deleted locally.
 - If you just want to upload a ZIP file without remote extraction and deletion just use any other SFTP client.
 
-## Requirements
+## Development
 
 - Python 3
 - Windows 10+
 - Install dependencies: `pip install -r requirements.txt`
+
+### Create .exe for Windows
+
+- `pip install pyinstaller`
+- `pyinstaller --onefile fast_sftp_folder_uploader.py`

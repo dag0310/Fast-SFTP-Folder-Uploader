@@ -1,2 +1,5 @@
-config.ini
+/build
+/dist
+/*.spec
+*.ini
 *.zip
