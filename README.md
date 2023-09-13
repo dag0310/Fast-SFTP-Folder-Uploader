@@ -1,14 +1,13 @@
 # Fast SFTP Folder Uploader
 
-Uploads a folder fast to a set SFTP remote folder location by zipping it on the client, uploading the zip file and unzipping it on the remote host.
+Upload folders faster via SFTP by temporarily zipping on the client and unzipping on the host.
 
-It also automatically deletes the temporary zip files locally and remotely.
+## Features
 
-Very useful for folders with many files and folders, like a Wordpress instance.
-
-You can also just upload an existing ZIP file, which will not be deleted locally.
-
-If you just want to upload a zip file without remote extraction use any other tool like FileZilla.
+- Very useful for folders with many files and folders, like a Wordpress instance.
+- It also automatically deletes the temporary ZIP files locally and remotely.
+- You can also just upload an existing ZIP file, which will not be deleted locally.
+- If you just want to upload a ZIP file without remote extraction and deletion just use any other SFTP client.
 
 ## Requirements
 
