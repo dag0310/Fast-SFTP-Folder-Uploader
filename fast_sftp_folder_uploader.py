@@ -36,10 +36,8 @@ def zip_and_upload(local_path, remote_folderpath, hostname, username, password):
             zip_filepath = os.path.join(cwd, zip_filename)
             os.chdir(local_path)
             os.chdir('..')
-            if platform.system() == 'Windows':
-                zip_command = 'tar -acf "' + zip_filepath + '" "' + folder_name + '"'
-            else:
-                zip_command = 'zip -r "' + zip_filepath + '" "' + folder_name + '"'
+            zip_command = 'tar -acf' if platform.system() == 'Windows' else 'zip -r'
+            zip_command += ' "' + zip_filepath + '" "' + folder_name + '"'
             print(zip_command)
             os.system(zip_command)
             os.chdir(cwd)
