@@ -31,7 +31,7 @@ def zip_and_upload(local_path, remote_folderpath, hostname, username, password):
             print('Creating temporary ZIP file ...')
             is_temporary_zip_file = True
             cwd = os.getcwd()
-            folder_name = os.path.basename(local_path)
+            folder_name = basename
             zip_filename = folder_name + zip_file_extension
             zip_filepath = os.path.join(cwd, zip_filename)
             os.chdir(local_path)
