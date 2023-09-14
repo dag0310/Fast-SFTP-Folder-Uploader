@@ -3,6 +3,7 @@ from tkinter import StringVar, filedialog
 import paramiko
 import os
 import configparser
+import platform
 
 config_filepath = 'config.ini'
 zip_file_extension = '.zip'
@@ -35,7 +36,10 @@ def zip_and_upload(local_path, remote_folderpath, hostname, username, password):
             zip_filepath = os.path.join(cwd, zip_filename)
             os.chdir(local_path)
             os.chdir('..')
-            zip_command = 'tar -a -c -f "' + zip_filepath + '" "' + folder_name + '"'
+            if platform.system() == 'Windows':
+                zip_command = 'tar -a -c -f "' + zip_filepath + '" "' + folder_name + '"'
+            else:
+                zip_command = 'zip -r "' + zip_filepath + '" "' + folder_name + '"'
             print(zip_command)
             os.system(zip_command)
             os.chdir(cwd)

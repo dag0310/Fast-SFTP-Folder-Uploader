@@ -29,9 +29,7 @@ Tested with Windows 10:
 
 Tested with Ubuntu 22:
 
-- `sudo apt install python3`
-- `sudo apt install python3-pip`
-- `sudo apt install python3-tk`
+- `sudo apt install zip python3 python3-pip python3-tk`
 - `pip install -r requirements.txt`
 - Create executable
   - `pip install pyinstaller`
