@@ -64,19 +64,27 @@ def zip_and_upload(local_path, remote_folderpath, hostname, username, password):
         sftp.close()
 
         print('Unzipping the file remotely ...')
-        remote_unzip_command = 'unzip -qq "' + remote_filepath + '" -d "' + remote_folderpath + '"'  # -qq necessary for reliable complete unzipping!
+        remote_unzip_command = 'unzip -qq "' + remote_filepath + '" -d "' + remote_folderpath + '"'
         print(remote_unzip_command)
-        ssh_client.exec_command(remote_unzip_command)
+        stdin, stdout, stderr = ssh_client.exec_command(remote_unzip_command)
+        if stdout.channel.recv_exit_status() == 0:
+            print(f"File {remote_filepath} has been successfully unzipped.")
+        else:
+            print(f"Error unzipping {remote_filepath}: {stderr.read().decode()}")
 
         print('Deleting the temporary ZIP file remotely ...')
         remote_rm_command = 'rm "' + remote_filepath + '"'
         print(remote_rm_command)
-        ssh_client.exec_command(remote_rm_command)
+        stdin2, stdout2, stderr2 = ssh_client.exec_command(remote_rm_command)
+        if stdout2.channel.recv_exit_status() == 0:
+            print(f"File {remote_filepath} has been successfully deleted.")
+        else:
+            print(f"Error deleting {remote_filepath}: {stderr.read().decode()}")
 
         print('Closing SSH connection ...')
         ssh_client.close()
 
-        update_status('Upload successful!')
+        update_status('Upload finished!')
     except Exception as e:
         update_status(str(e))
     finally:
