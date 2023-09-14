@@ -143,7 +143,7 @@ def save_config():
 # Create main window
 padding = 15
 root = tk.Tk()
-root.title("Fast SFTP Folder Uploader")
+root.title("Fast SFTP Folder Uploader 1.0.0")
 root.geometry('400x400')
 
 # Local folder selection
