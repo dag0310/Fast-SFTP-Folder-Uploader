@@ -45,7 +45,7 @@ def zip_and_upload(local_path, remote_folderpath, hostname, username, password):
         ssh_client.load_system_host_keys()
         ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
-        print('Connecting to the remote host ...')
+        print('Connecting to remote host ...')
         ssh_client.connect(hostname, username=username, password=password)
 
         print('Creating SFTP client ...')
@@ -63,23 +63,23 @@ def zip_and_upload(local_path, remote_folderpath, hostname, username, password):
         print('Closing SFTP connection ...')
         sftp.close()
 
-        print('Unzipping the file remotely ...')
+        print('Unzipping temp file remotely ...')
         remote_unzip_command = 'unzip -qq "' + remote_filepath + '" -d "' + remote_folderpath + '"'
         print(remote_unzip_command)
         stdin, stdout, stderr = ssh_client.exec_command(remote_unzip_command)
         if stdout.channel.recv_exit_status() == 0:
-            print(f"File {remote_filepath} has been successfully unzipped.")
+            print(f"Temp file has been successfully unzipped.")
         else:
-            print(f"Error unzipping {remote_filepath}: {stderr.read().decode()}")
+            print(f"Error unzipping temp file: {stderr.read().decode()}")
 
-        print('Deleting the temporary ZIP file remotely ...')
+        print('Deleting temp file remotely ...')
         remote_rm_command = 'rm "' + remote_filepath + '"'
         print(remote_rm_command)
         stdin2, stdout2, stderr2 = ssh_client.exec_command(remote_rm_command)
         if stdout2.channel.recv_exit_status() == 0:
-            print(f"File {remote_filepath} has been successfully deleted.")
+            print(f"Temp file has been successfully deleted.")
         else:
-            print(f"Error deleting {remote_filepath}: {stderr.read().decode()}")
+            print(f"Error deleting temp file: {stderr.read().decode()}")
 
         print('Closing SSH connection ...')
         ssh_client.close()
@@ -138,7 +138,7 @@ def save_config():
     update_status('Config saved.')
 
 
-# Create the main window
+# Create main window
 padding = 15
 root = tk.Tk()
 root.title("Fast SFTP Folder Uploader")
