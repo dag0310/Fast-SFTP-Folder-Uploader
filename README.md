@@ -11,11 +11,28 @@ Upload folders faster via SFTP by temporarily zipping on the client and unzippin
 
 ## Development
 
-- Python 3
-- Windows 10+
-- Install dependencies: `pip install -r requirements.txt`
+Run: `python fast_sftp_folder_uploader.py`
 
-### Create .exe for Windows
+Attention: Run in current working directory, otherwise the config will be saved to from where it was called.
 
-- `pip install pyinstaller`
-- `pyinstaller --onefile fast_sftp_folder_uploader.py`
+### Windows
+
+Tested with Windows 10:
+
+- Install Python 3 from [python.org](https://www.python.org/)
+- `pip install -r requirements.txt`
+- Create executable
+  - `pip install pyinstaller`
+  - `pyinstaller --onefile fast_sftp_folder_uploader.py`
+
+### Linux
+
+Tested with Ubuntu 22:
+
+- `sudo apt install python3`
+- `sudo apt install python3-pip`
+- `sudo apt install python3-tk`
+- `pip install -r requirements.txt`
+- Create executable
+  - `pip install pyinstaller`
+  - `~/.local/bin/pyinstaller --onefile fast_sftp_folder_uploader.py`
