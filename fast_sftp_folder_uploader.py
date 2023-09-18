@@ -6,7 +6,7 @@ import configparser
 import platform
 
 app_name = "Fast SFTP Folder Uploader"
-version = "1.0.0"
+version = "1.1.0"
 config_filepath = 'config.ini'
 zip_file_extension = '.zip'
 default_port = 22
