@@ -7,6 +7,7 @@ import platform
 
 config_filepath = 'config.ini'
 zip_file_extension = '.zip'
+default_port = 22
 
 
 def update_status(text):
@@ -14,7 +15,7 @@ def update_status(text):
     output_text.set(text)
 
 
-def zip_and_upload(local_path, remote_folderpath, hostname, username, password):
+def zip_and_upload(local_path, remote_folderpath, hostname, port, username, password):
     zip_filepath = None
     is_temporary_zip_file = False
     try:
@@ -48,7 +49,7 @@ def zip_and_upload(local_path, remote_folderpath, hostname, username, password):
         ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
         print('Connecting to remote host ...')
-        ssh_client.connect(hostname, username=username, password=password)
+        ssh_client.connect(hostname, username=username, password=password, port=port)
 
         print('Creating SFTP client ...')
         sftp = ssh_client.open_sftp()
@@ -119,10 +120,11 @@ def upload():
     local_path = local_path_entry.get()
     remote_folder = remote_folder_entry.get()
     hostname = hostname_entry.get()
+    port = port_entry.get() or default_port
     username = username_entry.get()
     password = password_entry.get()
 
-    zip_and_upload(local_path, remote_folder, hostname, username, password)
+    zip_and_upload(local_path, remote_folder, hostname, port, username, password)
 
 
 def save_config():
@@ -130,6 +132,7 @@ def save_config():
     new_config['SFTP'] = {
         'remote_folder': remote_folder_entry.get(),
         'hostname': hostname_entry.get(),
+        'port': port_entry.get(),
         'username': username_entry.get(),
         'password': password_entry.get(),
     }
@@ -173,6 +176,11 @@ hostname_label.pack()
 hostname_entry = tk.Entry(root)
 hostname_entry.pack(fill="x", padx=padding)
 
+port_label = tk.Label(root, text="Port (default=" + str(default_port) + "):")
+port_label.pack()
+port_entry = tk.Entry(root)
+port_entry.pack(fill="x", padx=padding)
+
 username_label = tk.Label(root, text="Username:")
 username_label.pack()
 username_entry = tk.Entry(root)
@@ -188,10 +196,16 @@ config = configparser.ConfigParser()
 if os.path.exists(config_filepath):
     config.read(config_filepath)
 if 'SFTP' in config:
-    remote_folder_entry.insert(0, config['SFTP']['remote_folder'])
-    hostname_entry.insert(0, config['SFTP']['hostname'])
-    username_entry.insert(0, config['SFTP']['username'])
-    password_entry.insert(0, config['SFTP']['password'])
+    if 'remote_folder' in config['SFTP']:
+        remote_folder_entry.insert(0, config['SFTP']['remote_folder'])
+    if 'hostname' in config['SFTP']:
+        hostname_entry.insert(0, config['SFTP']['hostname'])
+    if 'port' in config['SFTP']:
+        port_entry.insert(0, config['SFTP']['port'])
+    if 'username' in config['SFTP']:
+        username_entry.insert(0, config['SFTP']['username'])
+    if 'password' in config['SFTP']:
+        password_entry.insert(0, config['SFTP']['password'])
 
 # Save config button
 save_button = tk.Button(root, text="Save Config", command=save_config)
