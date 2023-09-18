@@ -5,6 +5,7 @@ import os
 import configparser
 import platform
 
+version = "1.0.0"
 config_filepath = 'config.ini'
 zip_file_extension = '.zip'
 default_port = 22
@@ -146,7 +147,7 @@ def save_config():
 # Create main window
 padding = 15
 root = tk.Tk()
-root.title("Fast SFTP Folder Uploader 1.0.0")
+root.title("Fast SFTP Folder Uploader " + version)
 root.geometry('400x400')
 
 # Local folder selection
