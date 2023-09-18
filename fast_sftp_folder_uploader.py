@@ -166,7 +166,7 @@ browse_zip_file_button = tk.Button(browse_buttons_frame, text="Select ZIP file",
 browse_zip_file_button.pack(side="left")
 
 # Remote folder and SFTP settings
-remote_folder_label = tk.Label(root, text="Remote Folder:")
+remote_folder_label = tk.Label(root, text="Remote folder:")
 remote_folder_label.pack()
 remote_folder_entry = tk.Entry(root)
 remote_folder_entry.pack(fill="x", padx=padding)
@@ -208,7 +208,7 @@ if 'SFTP' in config:
         password_entry.insert(0, config['SFTP']['password'])
 
 # Save config button
-save_button = tk.Button(root, text="Save Config", command=save_config)
+save_button = tk.Button(root, text="Save config", command=save_config)
 save_button.pack()
 
 # Upload button
